@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Stella 💖</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+    }
+
+    #stella {
+      position: absolute;
+      top: 100vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      opacity: 0;
+      animation: flyIn 4s ease-out forwards;
+    }
+
+    @keyframes flyIn {
+      0% {
+        top: 100vh;
+        opacity: 0;
+      }
+      100% {
+        top: 100px;
+        opacity: 1;
+      }
+    }
+
+    #message {
+      margin-top: 220px;
+      font-size: 20px;
+      display: none;
+    }
+
+    #revealButton {
+      margin-top: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    #content {
+      display: none;
+      margin-top: 30px;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    ul {
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="stella" src="https://i.ibb.co/dp1rZx6/stella.png" alt="Stella from Winx" />
+
+  <div id="message">
+    <p>I heard that your bf misses you 💬</p>
+    <div id="revealButton">Click on me please 💖</div>
+  </div>
+
+  <div id="content">
+    <h2>⏳ Days left until we meet:</h2>
+    <h1 id="countdown"></h1>
+
+    <h2>💌 Top things I miss about you</h2>
+    <ul>
+      <li>Your laugh</li>
+      <li>Your smile</li>
+      <li>Our late night calls</li>
+      <li>The way you say my name</li>
+      <li>Everything 💗</li>
+    </ul>
+
+    <h2>💭 More surprises coming soon...</h2>
+  </div>
+
+  <script>
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById("message").style.display = "block";
+      }, 4000); // Wait for fly animation
+    };
+
+    document.getElementById("revealButton").onclick = () => {
+      document.getElementById("content").style.display = "block";
+      startCountdown("2025-09-01"); // 🗓️ CHANGE THIS DATE to your reunion day
+    };
+
+    function startCountdown(dateStr) {
+      const countdown = document.getElementById("countdown");
+      const targetDate = new Date(dateStr);
+      const now = new Date();
+      const diffTime = targetDate - now;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      countdown.innerText = `${diffDays} day(s)`;
+    }
+  </script>
+
+</body>
+</html>
