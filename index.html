@@ -16,6 +16,29 @@
             height: 100vh;
         }
 
+        /* Flying animation for the Stella GIF */
+        .gif-container {
+            position: absolute;
+            top: 100vh; /* Start from the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px; /* Adjust to your preferred size */
+            opacity: 0; /* Start invisible */
+            animation: flyIn 4s ease-out forwards;
+        }
+
+        @keyframes flyIn {
+            0% {
+                top: 100vh;
+                opacity: 0;
+            }
+
+            100% {
+                top: 200px; /* Final position in the center */
+                opacity: 1;
+            }
+        }
+
         #message {
             margin-top: 220px;
             font-size: 20px;
@@ -57,26 +80,23 @@
             margin-bottom: 10px;
         }
 
-        /* Style the GIF container */
-        .gif-container {
-            display: inline-block;
-            width: 80%; /* Adjust width to fit your page */
-            max-width: 500px; /* Optional: max-width to prevent it from getting too large */
-            background: none; /* Ensure no background */
+        /* Fixing the GIF container */
+        .tenor-gif-embed {
+            background: none; /* Remove any background */
         }
 
-        .gif-container img {
-            width: 100%; /* Make the GIF fill the width of its container */
-            height: auto; /* Maintain the aspect ratio */
+        .tenor-gif-embed img {
+            width: 100%; /* Fit the GIF to the container width */
+            height: auto; /* Maintain aspect ratio */
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Embed the Stella GIF directly using the image URL -->
+    <!-- Embed the Stella GIF with no background -->
     <div class="gif-container">
-        <img src="https://tenor.com/btE5I.gif" alt="Stella from Winx" />
+        <img src="https://media.tenor.com/images/8b7eb5ee1f74e7e87a9416e3d07b5b90/tenor.gif" alt="Stella from Winx" />
     </div>
 
     <div id="message">
