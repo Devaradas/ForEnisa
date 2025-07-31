@@ -17,27 +17,29 @@
         }
 
         /* Flying animation for the Stella GIF */
-        .gif-container {
-            position: absolute;
-            top: 100vh; /* Start from the bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px; /* Adjust to your preferred size */
-            opacity: 0; /* Start invisible */
-            animation: flyIn 4s ease-out forwards;
-        }
+      .gif-container {
+    position: absolute;
+    right: 0; /* Start from the bottom-right corner */
+    bottom: 0; /* Start from the bottom-right corner */
+    width: 150px;
+    opacity: 0;
+    animation: flyIn 4s ease-in-out forwards;
+}
 
-        @keyframes flyIn {
-            0% {
-                top: 100vh;
-                opacity: 0;
-            }
+@keyframes flyIn {
+    0% {
+        right: 0; 
+        bottom: 0;
+        opacity: 0;
+    }
 
-            100% {
-                top: 200px; /* Final position in the center */
-                opacity: 1;
-            }
-        }
+    100% {
+        top: 50%;  /* Move to the center */
+        left: 50%;  /* Move to the center */
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Center the GIF */
+    }
+}
 
         #message {
             margin-top: 220px;
