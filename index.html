@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Stella 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         body {
-            background: #fff0f5;
-            font-family: 'Arial', sans-serif;
+            background: #fce4ec;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             padding: 50px;
             overflow-x: hidden;
@@ -16,132 +15,177 @@
             height: 100vh;
         }
 
-        /* Flying animation for the Stella GIF */
-      .gif-container {
-    position: absolute;
-    right: 0; /* Start from the bottom-right corner */
-    bottom: 0; /* Start from the bottom-right corner */
-    width: 150px;
-    opacity: 0;
-    animation: flyIn 4s ease-in-out forwards;
-}
-
-@keyframes flyIn {
-    0% {
-        right: 0; 
-        bottom: 0;
-        opacity: 0;
-    }
-
-    100% {
-        top: 50%;  /* Move to the center */
-        left: 50%;  /* Move to the center */
-        opacity: 1;
-        transform: translate(-50%, -50%); /* Center the GIF */
-    }
-}
-
-        #message {
-            margin-top: 220px;
-            font-size: 20px;
-            display: none;
+        /* Puzzle Style */
+        #puzzle {
+            width: 300px; 
+            height: 300px;
+            margin: 20px auto;
         }
 
         #revealButton {
-            margin-top: 10px;
+            display: none;
+            margin-top: 20px;
             font-size: 18px;
             cursor: pointer;
-            color: blue;
-            text-decoration: underline;
+            color: white;
+            background-color: #f48fb1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
         }
 
-        #content {
-            display: none;
-            margin-top: 30px;
-            animation: fadeIn 2s forwards;
+        #revealButton:hover {
+            background-color: #f06292;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        ul {
-            text-align: left;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        /* Fixing the GIF container */
-        .tenor-gif-embed {
-            background: none; /* Remove any background */
-        }
-
-        .tenor-gif-embed img {
-            width: 100%; /* Fit the GIF to the container width */
-            height: auto; /* Maintain aspect ratio */
+        #puzzleMessage {
+            font-size: 20px;
+            color: #d81b60;
+            font-family: 'Pacifico', cursive;
+            margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
-
-    <!-- Embed the Stella GIF using the relative file path -->
-    <div class="gif-container">
-        <img src="fairy-stella.gif" alt="Stella from Winx" />
+    <!-- Password Prompt -->
+    <div id="passwordPrompt">
+        <p>Enter the passcode:</p>
+        <input type="password" id="passcodeInput" />
+        <button onclick="checkPassword()">Submit</button>
     </div>
 
-    <div id="message">
-        <p>I heard that your bf misses you 💬</p>
-        <div id="revealButton">Click on me please 💖</div>
+    <!-- Main Content -->
+    <div id="mainContent" style="display: none;">
+        <h2>Welcome, Stella!</h2>
+        <div id="message" style="display: none;">
+            <p>I heard that your bf misses you 💬</p>
+            <button id="revealButton" onclick="revealContent()">Hit me to find out more 💖</button>
+        </div>
+
+        <div id="content" style="display: none;">
+            <h2>⏳ Days until we meet:</h2>
+            <h1 id="countdown"></h1>
+        </div>
+
+        <div id="pollSection" style="display: none;">
+            <h2>What's our favorite love song?</h2>
+            <button class="pollButton" onclick="voteForSong('Song 1')">Song 1: Perfect</button>
+            <button class="pollButton" onclick="voteForSong('Song 2')">Song 2: A Thousand Years</button>
+            <button class="pollButton" onclick="voteForSong('Song 3')">Song 3: All of Me</button>
+            <div id="pollResult"></div>
+        </div>
+
+        <div id="loveLetterSection" style="display: none;">
+            <h2>Create your personalized love letter:</h2>
+            <button onclick="generateLoveLetter()">Generate Love Letter</button>
+            <div id="loveLetter"></div>
+        </div>
+
+        <div id="puzzleSection" style="display: none;">
+            <h2>Complete the puzzle to unlock your surprise!</h2>
+            <div id="puzzle"></div>
+            <button onclick="showMessage()" id="revealButton">Reveal Your Secret Message</button>
+            <div id="puzzleMessage" style="display: none;">
+                <p>Congratulations! You've unlocked your surprise: "You are my everything!" 💖</p>
+            </div>
+        </div>
     </div>
 
-    <div id="content">
-        <h2>⏳ Days left until we meet:</h2>
-        <h1 id="countdown"></h1>
-        <h2>💌 Top things I miss about you</h2>
-        <ul>
-            <li>Your laugh</li>
-            <li>Your smile</li>
-            <li>Our late night calls</li>
-            <li>The way you say my name</li>
-            <li>Everything 💗</li>
-        </ul>
-        <h2>💭 More surprises coming soon...</h2>
-    </div>
+    <!-- Include jsPuzzler library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspuzzler/1.0.0/jsPuzzler.min.js"></script>
 
     <script>
         window.onload = () => {
+            // Initially, the password prompt is visible
+            document.getElementById("mainContent").style.display = "none";
+        };
+
+        // Check if the entered password is correct
+        function checkPassword() {
+            const passcodeInput = document.getElementById("passcodeInput").value;
+            const correctPasscode = "1234"; // Set your desired passcode here
+            if (passcodeInput === correctPasscode) {
+                // Hide password prompt and show main content
+                document.getElementById("passwordPrompt").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                revealStella();
+                startCountdown("2025-09-13");  // Set the target date to September 13th, 2025
+                startPuzzleGame();  // Start the puzzle game
+            } else {
+                alert("Incorrect passcode. Try again.");
+            }
+        }
+
+        // Reveal Stella GIF and message after entering the correct passcode
+        function revealStella() {
             setTimeout(() => {
                 document.getElementById("message").style.display = "block";
-            }, 4000); // Wait for Stella animation
-        };
+            }, 4000); // Delay Stella's message after 4 seconds
+        }
 
-        document.getElementById("revealButton").onclick = () => {
-            document.getElementById("content").style.display = "block";
-            startCountdown("2025-09-01"); // 🗓️ CHANGE THIS DATE to your reunion day
-        };
-
+        // Show countdown for special day
         function startCountdown(dateStr) {
             const countdown = document.getElementById("countdown");
-            const targetDate = new Date(dateStr);
-            const now = new Date();
-            const diffTime = targetDate - now;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            countdown.innerText = `${diffDays} day(s)`;
+            const targetDate = new Date(dateStr);  
+            const now = new Date();  
+            const diffTime = targetDate - now;  
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+            countdown.innerText = `${diffDays} days until we meet!`;
+        }
+
+        // Reveal all content when the "Hit me to find out more" button is clicked
+        function revealContent() {
+            document.getElementById("content").style.display = "block";
+            document.getElementById("pollSection").style.display = "block";
+            document.getElementById("loveLetterSection").style.display = "block";
+            document.getElementById("puzzleSection").style.display = "block";
+        }
+
+        // Poll for favorite song
+        let songVotes = { "Song 1": 0, "Song 2": 0, "Song 3": 0 };
+
+        function voteForSong(song) {
+            songVotes[song]++;
+            displayPollResult();
+        }
+
+        function displayPollResult() {
+            const resultText = `
+                Song 1: Perfect - ${songVotes['Song 1']} votes<br>
+                Song 2: A Thousand Years - ${songVotes['Song 2']} votes<br>
+                Song 3: All of Me - ${songVotes['Song 3']} votes
+            `;
+            document.getElementById("pollResult").innerHTML = resultText;
+        }
+
+        // Love Letter Generator
+        function generateLoveLetter() {
+            const loveLetter = `
+                My dearest, <br>
+                Every moment with you is like a beautiful dream. <br>
+                I am grateful for every smile, every laugh, and every moment we've shared. <br>
+                You are my everything, and I love you more than words can express. 💖
+            `;
+            document.getElementById("loveLetter").innerHTML = loveLetter;
+        }
+
+        // Puzzle: Jigsaw Puzzle
+        function startPuzzleGame() {
+            const puzzle = new jsPuzzler("#puzzle", {
+                image: "https://your-image-url.jpg", // Replace this with your image URL
+                rows: 4, // Set the number of rows for the puzzle
+                columns: 4, // Set the number of columns for the puzzle
+                onComplete: function() {
+                    document.getElementById("revealButton").style.display = "inline-block"; // Show the reveal button
+                }
+            });
+        }
+
+        // Show message once the puzzle is solved
+        function showMessage() {
+            document.getElementById("puzzleMessage").style.display = "block"; // Show the message
         }
     </script>
-
 </body>
-
 </html>
