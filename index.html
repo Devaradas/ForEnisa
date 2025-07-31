@@ -57,15 +57,15 @@
             margin-bottom: 10px;
         }
 
-        /* Style the embedded GIF container */
-        .tenor-gif-embed {
+        /* Style the GIF container */
+        .gif-container {
             display: inline-block;
             width: 80%; /* Adjust width to fit your page */
-            max-width: 500px; /* Optional: max-width to prevent too large a GIF */
-            background: none; /* Override any default background */
+            max-width: 500px; /* Optional: max-width to prevent it from getting too large */
+            background: none; /* Ensure no background */
         }
 
-        .tenor-gif-embed img {
+        .gif-container img {
             width: 100%; /* Make the GIF fill the width of its container */
             height: auto; /* Maintain the aspect ratio */
         }
@@ -74,12 +74,10 @@
 
 <body>
 
-    <!-- Embed the GIF from Tenor with adjusted styling -->
-    <div class="tenor-gif-embed" data-postid="19423456" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-        <a href="https://tenor.com/view/fairy-stella-winx-winx-club-fata-gif-19423456">Fairy Stella Sticker</a> from 
-        <a href="https://tenor.com/search/fairy-stickers">Fairy Stickers</a>
+    <!-- Embed the Stella GIF directly using the image URL -->
+    <div class="gif-container">
+        <img src="https://tenor.com/btE5I.gif" alt="Stella from Winx" />
     </div>
-    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
     <div id="message">
         <p>I heard that your bf misses you 💬</p>
