@@ -2,115 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>For My Stella 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romantic Website</title>
   <style>
     body {
-      background: #fff0f5;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 50px;
-      overflow-x: hidden;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0e6f7;
     }
 
     #stella {
       position: absolute;
-      top: 100vh;
+      top: -200px;
       left: 50%;
       transform: translateX(-50%);
-      width: 150px;
-      opacity: 0;
-      animation: flyIn 4s ease-out forwards;
+      animation: flyToCenter 3s forwards;
     }
 
-    @keyframes flyIn {
+    @keyframes flyToCenter {
       0% {
-        top: 100vh;
+        top: -200px;
         opacity: 0;
       }
+      50% {
+        top: 50%;
+        opacity: 0.5;
+      }
       100% {
-        top: 100px;
+        top: 50%;
         opacity: 1;
       }
     }
 
-    #message {
-      margin-top: 220px;
+    .message {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+      margin-top: 50px;
+    }
+
+    .countdown {
       font-size: 20px;
-      display: none;
-    }
-
-    #revealButton {
-      margin-top: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      color: blue;
-      text-decoration: underline;
-    }
-
-    #content {
-      display: none;
-      margin-top: 30px;
-      animation: fadeIn 2s forwards;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    ul {
-      text-align: left;
-      max-width: 400px;
-      margin: 0 auto;
+      margin-top: 20px;
+      color: #ff4081;
     }
   </style>
 </head>
 <body>
-
-  <img id="stella" src="https://i.ibb.co/dp1rZx6/stella.png" alt="Stella from Winx" />
-
-  <div id="message">
-    <p>I heard that your bf misses you 💬</p>
-    <div id="revealButton">Click on me please 💖</div>
+  <img id="stella" src="stella.png" alt="Stella" width="100" />
+  <div class="message">
+    <p>I heard that your bf misses you, click on me please.</p>
   </div>
-
-  <div id="content">
-    <h2>⏳ Days left until we meet:</h2>
-    <h1 id="countdown"></h1>
-
-    <h2>💌 Top things I miss about you</h2>
-    <ul>
-      <li>Your laugh</li>
-      <li>Your smile</li>
-      <li>Our late night calls</li>
-      <li>The way you say my name</li>
-      <li>Everything 💗</li>
-    </ul>
-
-    <h2>💭 More surprises coming soon...</h2>
-  </div>
+  <div class="countdown" id="countdown"></div>
 
   <script>
-    window.onload = () => {
-      setTimeout(() => {
-        document.getElementById("message").style.display = "block";
-      }, 4000); // Wait for fly animation
-    };
+    // Countdown Timer
+    const targetDate = new Date("2025-12-31T00:00:00").getTime();
+    const countdownElement = document.getElementById("countdown");
 
-    document.getElementById("revealButton").onclick = () => {
-      document.getElementById("content").style.display = "block";
-      startCountdown("2025-09-01"); // 🗓️ CHANGE THIS DATE to your reunion day
-    };
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
 
-    function startCountdown(dateStr) {
-      const countdown = document.getElementById("countdown");
-      const targetDate = new Date(dateStr);
-      const now = new Date();
-      const diffTime = targetDate - now;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      countdown.innerText = `${diffDays} day(s)`;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      countdownElement.textContent = `Days until we meet: ${days}`;
     }
-  </script>
 
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 </body>
 </html>
