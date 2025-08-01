@@ -42,6 +42,41 @@
                 transform: translate(-50%, -50%);
             }
         }
+        @keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+.heart {
+    position: absolute;
+    top: -50px;
+    font-size: 24px;
+    color: #ff4081; /* Pink color */
+    animation: fall linear infinite;
+    animation-duration: 10s;
+    z-index: 1000;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Add a pulse to the hearts */
+.heart {
+    animation: fall 10s linear infinite, heartbeat 1s ease-in-out infinite;
+}
 
         #message {
             margin-top: 220px;
@@ -165,10 +200,18 @@
             height: 400px;
             border: none;
         }
+/* Falling Hearts */
+
+
     </style>
 </head>
 <body>
     <!-- Password prompt (initially visible) -->
+       <audio id="backgroundMusic" autoplay loop>
+        <source src="your-music-file.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
     <div id="passwordPrompt" style="text-align: center;">
         <p>Happy Girlfriend Day! Enter the passcode plzz</p>
         <input type="password" id="passcodeInput" placeholder="Enter passcode" />
@@ -244,6 +287,24 @@
                 showPrizeWheel(); // Call the function to show the prize wheel message after 30 seconds
             }, 30000); // 30 seconds = 30000 milliseconds
         };
+        function createHearts() {
+            const numberOfHearts = 10; // Number of hearts to fall
+            for (let i = 0; i < numberOfHearts; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '💖'; // Heart emoji
+                const leftPosition = Math.random() * 100; // Random horizontal position
+                heart.style.left = leftPosition + 'vw';
+                const duration = Math.random() * 5 + 5; // Duration between 5s and 10s
+                heart.style.animationDuration = duration + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+            }
+        }
+
+        setInterval(createHearts, 1000);
 
         // Check if the entered password is correct
         function checkPassword() {
@@ -356,6 +417,36 @@
                 prizeMessage.innerHTML = randomPrize;
             }, 4000); // Delay to match wheel spinning time
         }
+// Function to generate falling hearts
+function createHearts() {
+    const numberOfHearts = 10; // Number of hearts to fall
+
+    for (let i = 0; i < numberOfHearts; i++) {
+        let heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '💖'; // Heart emoji
+
+        // Random position for each heart
+        const leftPosition = Math.random() * 100; // Random horizontal position
+        heart.style.left = leftPosition + 'vw'; // Use viewport width for random placement
+
+        // Random animation duration (hearts will fall at different speeds)
+        const duration = Math.random() * 5 + 5; // Duration between 5s and 10s
+        heart.style.animationDuration = duration + 's';
+
+        // Append heart to the body
+        document.body.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, duration * 1000); // Remove the heart after it finishes falling
+    }
+}
+
+// Create hearts every second
+setInterval(createHearts, 1000);
+
     </script>
 </body>
 </html>
