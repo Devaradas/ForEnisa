@@ -42,7 +42,8 @@
                 transform: translate(-50%, -50%);
             }
         }
-        @keyframes fall {
+        /* Falling Hearts */
+@keyframes fall {
     0% {
         transform: translateY(-100px) rotate(0deg);
     }
@@ -53,12 +54,13 @@
 
 .heart {
     position: absolute;
-    top: -50px;
+    top: -50px;  /* Start position above the viewport */
     font-size: 24px;
     color: #ff4081; /* Pink color */
-    animation: fall linear infinite;
-    animation-duration: 10s;
+    animation: fall linear infinite; /* Falling animation */
+    animation-duration: 10s; /* Fall time for each heart */
     z-index: 1000;
+    animation-timing-function: ease-in; /* Smooth easing */
 }
 
 @keyframes heartbeat {
@@ -283,27 +285,41 @@
         window.onload = () => {
             // Initially, the password prompt is visible, and nothing else is
             document.getElementById("mainContent").style.display = "none";
+            setInterval(createHearts, 1000);
+
             // After 30 seconds, show the "Congratulations!" message and prize wheel
             setTimeout(() => {
                 showPrizeWheel(); // Call the function to show the prize wheel message after 30 seconds
             }, 30000); // 30 seconds = 30000 milliseconds
         };
-        function createHearts() {
-            const numberOfHearts = 10; // Number of hearts to fall
-            for (let i = 0; i < numberOfHearts; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '💖'; // Heart emoji
-                const leftPosition = Math.random() * 100; // Random horizontal position
-                heart.style.left = leftPosition + 'vw';
-                const duration = Math.random() * 5 + 5; // Duration between 5s and 10s
-                heart.style.animationDuration = duration + 's';
-                document.body.appendChild(heart);
-                setTimeout(() => {
-                    heart.remove();
-                }, duration * 1000);
-            }
-        }
+       function createHearts() {
+    const numberOfHearts = 10; // Number of hearts to fall
+    for (let i = 0; i < numberOfHearts; i++) {
+        let heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '💖'; // Heart emoji
+
+        // Random position for each heart
+        const leftPosition = Math.random() * 100; // Random horizontal position
+        heart.style.left = leftPosition + 'vw'; // Use viewport width for random placement
+
+        // Random animation duration (hearts will fall at different speeds)
+        const duration = Math.random() * 5 + 5; // Duration between 5s and 10s
+        heart.style.animationDuration = duration + 's';
+
+        // Append heart to the body
+        document.body.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, duration * 1000); // Remove the heart after it finishes falling
+    }
+}
+
+// Create hearts every 1 second
+setInterval(createHearts, 1000);
+
 
         setInterval(createHearts, 1000);
 
