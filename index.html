@@ -209,6 +209,7 @@
             <button class="pollButton" onclick="voteForSong('Song 1')">Song 1: Too sweet</button>
             <button class="pollButton" onclick="voteForSong('Song 2')">Song 2: Like Jennie</button>
             <button class="pollButton" onclick="voteForSong('Song 3')">Song 3: Gjuj per to</button>
+            <button class="pollButton" onclick="voteForSong('Song 4')">Song 4:Other</button>
             <div id="pollResult"></div>
         </div>
 
@@ -294,9 +295,10 @@
 
         function displayPollResult() {
             const resultText = `
-                Song 1: Perfect - ${songVotes['Song 1']} votes<br>
-                Song 2: A Thousand Years - ${songVotes['Song 2']} votes<br>
-                Song 3: All of Me - ${songVotes['Song 3']} votes
+                Song 1: Too Sweeet - ${songVotes['Song 1']} votes<br>
+                Song 2: Like Jennie - ${songVotes['Song 2']} votes<br>
+                Song 3: Gjuj per to - ${songVotes['Song 3']} votes
+                Song 4: Other - ${songVotes['Song 4']} votes
             `;
             document.getElementById("pollResult").innerHTML = resultText;
         }
