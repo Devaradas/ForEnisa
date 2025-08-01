@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romantic Website</title>
+    <title>Girlfriend Day</title>
     <style>
         /* Use a cute, friendly font */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap');
@@ -153,12 +153,24 @@
         #passwordPrompt button:hover {
             background-color: #f06292;
         }
+
+        .wheel-container {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
     </style>
 </head>
 <body>
     <!-- Password prompt (initially visible) -->
     <div id="passwordPrompt" style="text-align: center;">
-        <p>But first, hit me with the passcode:</p>
+        <p>Happy Girlfriend Day! Enter the passcode plzz</p>
         <input type="password" id="passcodeInput" placeholder="Enter passcode" />
         <button onclick="checkPassword()">Submit</button>
     </div>
@@ -167,7 +179,7 @@
     <div id="mainContent" style="display: none;">
         <!-- Stella GIF flying animation -->
         <div class="gif-container">
-            <img src="https://i.imgur.com/fairy-stella.gif" alt="Stella from Winx" width="150px" />
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmJreTZpODduNzBydWYzM2dzdTc4c2x2dnNrZDhtOHc2OGlrbTE4ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/lJB3hAlgGlFUFZtmiz/giphy.gif" alt="Stella from Winx" width="150px" />
         </div>
 
         <!-- Message displayed after Stella flies in -->
@@ -178,7 +190,7 @@
 
         <!-- Content revealed after hitting the button -->
         <div id="content" style="display: none;">
-            <h2>⏳ Days since a special day:</h2>
+            <h2>⏳ Days Until I see your cute face:</h2>
             <h1 id="countdown"></h1>
             <h2>💌 Top things I miss about you</h2>
             <ul>
@@ -192,7 +204,7 @@
 
         <!-- Poll for favorite song -->
         <div id="pollSection" style="display: none;">
-            <h2>What's our favorite love song?</h2>
+            <h2>Let's vote for our song!</h2>
             <button class="pollButton" onclick="voteForSong('Song 1')">Song 1: Perfect</button>
             <button class="pollButton" onclick="voteForSong('Song 2')">Song 2: A Thousand Years</button>
             <button class="pollButton" onclick="voteForSong('Song 3')">Song 3: All of Me</button>
@@ -201,17 +213,23 @@
 
         <!-- Love Letter Generator -->
         <div id="loveLetterSection" style="display: none;">
-            <h2>Create your personalized love letter:</h2>
-            <button onclick="generateLoveLetter()">Generate Love Letter</button>
+            <h2>I have something to tell you:</h2>
+            <button onclick="generateLoveLetter()">Click here pleasse</button>
             <div id="loveLetter"></div>
         </div>
 
         <!-- Puzzle: Jigsaw Puzzle -->
         <div id="puzzleSection" style="display: none;">
-            <h2>Let's solve this puzzle together! </h2>
-            <div id="puzzle"></div>
-            <button onclick="solvePuzzle()">Solve Puzzle</button>
-            <div id="puzzleMessage"></div>
+            <h2>Complete the puzzle and win a prize!</h2>
+            <button onclick="openPuzzleGame()">Play Puzzle Game</button>
+        </div>
+
+        <!-- Prize Wheel -->
+        <div id="wheelSection" class="wheel-container" style="display: none;">
+            <h2>Congratulations! You completed the puzzle!</h2>
+            <iframe id="wheelOfNames" src="https://wheelofnames.com/9e680fce-9407-4822-aa76-853deaf940e5?embed=true&v=2"
+                    width="100%" height="400" frameborder="0" scrolling="no"></iframe>
+            <div id="prizeMessage"></div>
         </div>
     </div>
 
@@ -219,6 +237,10 @@
         window.onload = () => {
             // Initially, the password prompt is visible, and nothing else is
             document.getElementById("mainContent").style.display = "none";
+            // After 30 seconds, show the "Congratulations!" message and prize wheel
+            setTimeout(() => {
+                showPrizeWheel(); // Call the function to show the prize wheel message after 30 seconds
+            }, 30000); // 30 seconds = 30000 milliseconds
         };
 
         // Check if the entered password is correct
@@ -230,6 +252,7 @@
                 document.getElementById("passwordPrompt").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 revealStella();
+                startCountdown("2025-09-13");
             } else {
                 alert("Incorrect passcode. Try again.");
             }
@@ -245,16 +268,15 @@
         // Show countdown for special day
         function startCountdown(dateStr) {
             const countdown = document.getElementById("countdown");
-            const targetDate = new Date(dateStr);  
-            const now = new Date();  
-            const diffTime = now - targetDate;  
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
-            countdown.innerText = `${diffDays} day(s) have passed since ${targetDate.toLocaleDateString()}`;
+            const targetDate = new Date(dateStr);
+            const now = new Date();
+            const diffTime = targetDate - now;  // Calculate the difference from target date to current date
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // Convert time difference to days
+            countdown.innerText = `${diffDays} days until we meet!`;
         }
 
         // Reveal all content when the "Hit me to find out more" button is clicked
         function revealContent() {
-            // Display the next sections: Poll, Love Letter, Puzzle, etc.
             document.getElementById("content").style.display = "block";
             document.getElementById("pollSection").style.display = "block";
             document.getElementById("loveLetterSection").style.display = "block";
@@ -289,13 +311,47 @@
             document.getElementById("loveLetter").innerHTML = loveLetter;
         }
 
-        // Puzzle: Jigsaw Puzzle
-        function solvePuzzle() {
-            const puzzleMessage = `
-                Congratulations, you've solved the puzzle! 💖
-                Here's your hidden message: "You are the love of my life!"
-            `;
-            document.getElementById("puzzleMessage").innerHTML = puzzleMessage;
+        // Puzzle: Jigsaw Puzzle Initialization
+        function initializePuzzle() {
+            const puzzle = new jsPuzzler("#puzzle", {
+                image: "https://i.imgur.com/FXYtsvg.png", // Replace with your image URL
+                rows: 4, // Number of rows in the puzzle
+                columns: 4, // Number of columns in the puzzle
+                onComplete: function() {
+                    // This function is called when the puzzle is solved
+                    solvePuzzle(); // Call solvePuzzle function when the puzzle is solved
+                }
+            });
+        }
+
+        // Function that runs when the puzzle is solved
+        function openPuzzleGame() {
+            window.open("https://www.jigsawplanet.com/?rc=play&pid=084d4a2fe081", "_blank"); // Link to external puzzle game
+        }
+
+        // Show the prize wheel after completing the puzzle
+        function showPrizeWheel() {
+            // Show the "Congratulations!" message
+            const congratsMessage = document.createElement("h2");
+            congratsMessage.innerText = "Congratulations! You completed the puzzle!";
+            document.body.appendChild(congratsMessage); // Add message to the page
+            // Show the prize wheel section after the 30-second delay
+            document.getElementById("wheelSection").style.display = "block";
+        }
+
+        // Spin the wheel
+        function spinWheel() {
+            const wheel = document.getElementById("wheel");
+            const prizeMessage = document.getElementById("prizeMessage");
+            // Spin the wheel randomly between 0 to 360 degrees
+            const randomSpin = Math.floor(Math.random() * 360);
+            wheel.style.transform = `rotate(${randomSpin}deg)`;
+            // Display a random prize after the wheel stops spinning
+            setTimeout(() => {
+                const prizes = ["You win a teddy bear! 🧸", "You win a romantic dinner! 🍝", "You win a spa day! 🧖‍♀️", "You win a surprise gift! 🎁"];
+                const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+                prizeMessage.innerHTML = randomPrize;
+            }, 4000); // Delay to match wheel spinning time
         }
     </script>
 </body>
